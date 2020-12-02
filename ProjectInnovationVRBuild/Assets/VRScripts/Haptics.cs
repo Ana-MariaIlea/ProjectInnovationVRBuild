@@ -7,6 +7,7 @@ public class Haptics : MonoBehaviour
 {
     public SteamVR_Input_Sources source;
     public SteamVR_Action_Vibration hapticAction;
+    public string TagForUntouchable;
     bool hapticFlag = false;
 
     // Update is called once per frame
@@ -38,7 +39,7 @@ public class Haptics : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "Player" && collision.gameObject.GetComponent<Haptics>() == null)
+        if (collision.gameObject.tag != TagForUntouchable && collision.gameObject.GetComponent<Haptics>() == null)
         {
             Debug.Log("Collision start");
             hapticFlag = true;
