@@ -41,7 +41,7 @@ public class Haptics : MonoBehaviour
     {
         if (collision.gameObject.tag != TagForUntouchable && collision.gameObject.GetComponent<Haptics>() == null)
         {
-            Debug.Log("Collision start");
+            //Debug.Log("Collision start");
             hapticFlag = true;
         }
     }
@@ -51,7 +51,7 @@ public class Haptics : MonoBehaviour
         //collision.gameObject.GetComponent<Haptics>();
         if (collision.gameObject.tag != "Player"&&collision.gameObject.GetComponent<Haptics>()==null)
         {
-            Debug.Log("Collision end");
+           // Debug.Log("Collision end");
             hapticFlag = false;
         }
         

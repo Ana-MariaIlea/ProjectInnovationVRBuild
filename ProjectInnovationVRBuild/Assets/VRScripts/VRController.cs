@@ -116,7 +116,7 @@ public class VRController : MonoBehaviour
             //GetComponent<Rigidbody>().velocity = movement;
             transform.position += movement;
            // transform.Translate(movement);
-            Debug.Log("MOVE");
+           // Debug.Log("MOVE");
         }
         //if (movePress.GetState(SteamVR_Input_Sources.RightHand))
         //{
