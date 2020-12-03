@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
 
-[RequireComponent(typeof(CharacterController))]
+//[RequireComponent(typeof(CharacterController))]
 public class VRController : MonoBehaviour
 {
     public SteamVR_Action_Boolean movePress = null;
@@ -15,7 +15,8 @@ public class VRController : MonoBehaviour
     private float MaxSpeed=4;
     private float speed=0;
 
-    private CharacterController characterController = null;
+   // private CharacterController characterController = null;
+    private CapsuleCollider characterController = null;
     public Transform CameraRig;
     public Transform Head;
 
@@ -37,7 +38,8 @@ public class VRController : MonoBehaviour
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
+       // characterController = GetComponent<CharacterController>();
+        characterController = GetComponent<CapsuleCollider>();
         footStepsComponent = GetComponent<FootSteps>();
     }
 
@@ -56,6 +58,11 @@ public class VRController : MonoBehaviour
             CalculateMovement();
         }
 
+        //float posY = characterController.transform.position.y;
+
+        //characterController.transform.position = Head.position;
+
+       // characterController.transform.position.y = posY;
     }
 
     private void HandleHead()
@@ -79,6 +86,10 @@ public class VRController : MonoBehaviour
         Quaternion orientation = Quaternion.Euler(orientationEuler);
         Vector3 movement = Vector3.zero;
 
+        Vector3 dir = Head.transform.forward;
+        Vector3 XZPlane = new Vector3(dir.x, 0, dir.z);
+        XZPlane.Normalize();
+
         // If not moving
         if (movePress.GetStateUp(SteamVR_Input_Sources.Any))
         {
@@ -86,6 +97,9 @@ public class VRController : MonoBehaviour
             speed = 0;
         }
 
+        Debug.DrawRay(Head.position, orientation * (speed * Vector3.forward)*15,Color.red,10);
+
+       // Debug.DrawRay(transform.position, orientation * (speed * Vector3.forward)*15);
 
         // If buttonpressed
 
@@ -98,6 +112,11 @@ public class VRController : MonoBehaviour
                 timer = 0;
             }
             movement = orientation * (speed * Vector3.forward) * Time.deltaTime;
+            // movement = XZPlane * speed * Time.deltaTime;
+            //GetComponent<Rigidbody>().velocity = movement;
+            transform.position += movement;
+           // transform.Translate(movement);
+            Debug.Log("MOVE");
         }
         //if (movePress.GetState(SteamVR_Input_Sources.RightHand))
         //{
@@ -112,7 +131,7 @@ public class VRController : MonoBehaviour
         //}
 
         // Apply
-        characterController.Move(movement);
+       // characterController.Move(movement);
     }
 
     private void HandleHeight()
@@ -124,11 +143,12 @@ public class VRController : MonoBehaviour
         // Cut in half
         Vector3 newCenter = Vector3.zero;
         newCenter.y = characterController.height / 2;
-        newCenter.y += characterController.skinWidth;
+       // newCenter.y += characterController.skinWidth;
 
         // Move capsule in local space
-        newCenter.x = Head.localPosition.x;
-        newCenter.z = Head.localPosition.z;
+        newCenter.x = -Head.localPosition.x;
+       // newCenter.y = Head.localPosition.y;
+        newCenter.z = -Head.localPosition.z;
 
         // Rotate
         newCenter = Quaternion.Euler(0, -transform.eulerAngles.y, 0) * newCenter;
