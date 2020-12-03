@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.projectinnovationvrbuild.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "D:\\school\\year_2\\term_2\\ProjectInnovationVRBuild\\ProjectInnovationVRBuild\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "ProjectInnovationVRBuild [Testing]"
+        }
+      }
+    }
+  ]
+}

@@ -21,6 +21,10 @@ public class VRController : MonoBehaviour
 
     bool canMove=true;
 
+    float timer = 0;
+
+    FootSteps footStepsComponent;
+
     public void EnableMovement()
     {
         canMove = true;
@@ -34,6 +38,7 @@ public class VRController : MonoBehaviour
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        footStepsComponent = GetComponent<FootSteps>();
     }
 
     private void Start()
@@ -77,6 +82,7 @@ public class VRController : MonoBehaviour
         // If not moving
         if (movePress.GetStateUp(SteamVR_Input_Sources.Any))
         {
+            
             speed = 0;
         }
 
@@ -86,6 +92,11 @@ public class VRController : MonoBehaviour
         if (movePress.GetState(SteamVR_Input_Sources.Any))
         {
             speed = MaxSpeed;
+            if (timer >= footStepsComponent.timeBetweenSteps)
+            {
+                GetComponent<FootSteps>().MakeStep();
+                timer = 0;
+            }
             movement = orientation * (speed * Vector3.forward) * Time.deltaTime;
         }
         //if (movePress.GetState(SteamVR_Input_Sources.RightHand))
